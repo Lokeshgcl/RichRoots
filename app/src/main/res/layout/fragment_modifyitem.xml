@@ -1,0 +1,95 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn211"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:text="Selected Items" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/btn2222"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="Change Selection" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true">
+
+        <org.apmem.tools.layouts.FlowLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:f="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/flowLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:gravity="fill"
+            android:orientation="horizontal"
+            android:paddingLeft="6dip"
+            android:paddingTop="6dip"
+            android:paddingRight="12dip"
+            android:paddingBottom="12dip"
+            f:debugDraw="true"
+            f:layoutDirection="ltr"
+            f:weightDefault="1.0">
+
+            <Button
+                android:id="@+id/btn112"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="efjwejfwjefefjwejfwjefefjwejfwjefefj" />
+
+            <Button
+                android:id="@+id/btn222"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="efjwejfwjefeefjwejfwjefe" />
+
+            <Button
+                android:id="@+id/btn322"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="efjwejw" />
+
+            <Button
+                android:id="@+id/btn422"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="efjwe" />
+
+            <Button
+                android:id="@+id/btn522"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="efjwedfdsvsdfsdfsdfsdfsd" />
+
+            <Button
+                android:id="@+id/btn622"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="efjwewfqeqqweqeqeqejyjyujyujyjfgvfgfgvr" />
+
+            <Button
+                android:id="@+id/btn722"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="efjwejtyjyukyukyukyuk" />
+        </org.apmem.tools.layouts.FlowLayout>
+    </ScrollView>
+</LinearLayout>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/recyclerRowLL"
+    android:layout_width="fill_parent"
+    android:layout_height="100dp"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:layout_weight="0.30"
+        android:src="@drawable/fruits" />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_weight="0.30"
+        android:orientation="vertical"
+        android:id="@+id/linearName">
+        <TextView
+            android:id="@+id/txtcenter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:text="dlfldml" />
+        <TextView
+            android:id="@+id/txtItem"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="20dp"
+            android:gravity="bottom"
+            android:text="dlfldmlsfwefwsdbsjbdckjsbdkjcksbcdk" />
+    </LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_weight="0.30"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/txtQuantity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="dlfldml" />
+        <TextView
+            android:id="@+id/txtPrice"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="bottom"
+            android:text="dlfldmlsfwefw" />
+    </LinearLayout>
+</LinearLayout>
+
+    <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--              android:orientation="vertical"-->
+    <!--              android:layout_width="match_parent"-->
+    <!--              android:layout_height="match_parent">-->
+    <!--<CheckedTextView-->
+    <!--        android:id="@+id/textview"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        />-->
+    <!--</LinearLayout>-->
