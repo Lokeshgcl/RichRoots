@@ -1,7 +1,7 @@
 package com.example.richroots.ViewModel;
 
 public class ItemCenterVM {
-    private String ProdictName;
+    private String ProductName;
     private String Variety;
     private String SubVariety;
     private String Grade;
@@ -9,17 +9,17 @@ public class ItemCenterVM {
     private String MarketName;
     private String MarketPlaceName;
     private String PriceID;
-    private String MinPrice;
-    private String MaxPrice;
-    private String Quantity;
+    private float MinPrice;
+    private float MaxPrice;
+    private float Quantity;
     private String QuantityQualifier;
 
-    public String getProdictName() {
-        return ProdictName;
+    public String getProductName() {
+        return ProductName;
     }
 
-    public void setProdictName(String prodictName) {
-        ProdictName = prodictName;
+    public void setProductName(String productName) {
+        ProductName = productName;
     }
 
     public String getVariety() {
@@ -78,27 +78,27 @@ public class ItemCenterVM {
         PriceID = priceID;
     }
 
-    public String getMinPrice() {
+    public float getMinPrice() {
         return MinPrice;
     }
 
-    public void setMinPrice(String minPrice) {
+    public void setMinPrice(float minPrice) {
         MinPrice = minPrice;
     }
 
-    public String getMaxPrice() {
+    public float getMaxPrice() {
         return MaxPrice;
     }
 
-    public void setMaxPrice(String maxPrice) {
+    public void setMaxPrice(float maxPrice) {
         MaxPrice = maxPrice;
     }
 
-    public String getQuantity() {
+    public float getQuantity() {
         return Quantity;
     }
 
-    public void setQuantity(String quantity) {
+    public void setQuantity(float quantity) {
         Quantity = quantity;
     }
 

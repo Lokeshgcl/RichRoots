@@ -46,41 +46,32 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.richroots.Adapter.CustomAdapter;
-import com.example.richroots.Adapter.RecyclerViewAdapter;
 import com.example.richroots.Adapter.ViewPagerAdapter;
 
 import com.example.richroots.CenterFragment;
 import com.example.richroots.ItemFragment;
-import com.example.richroots.MainActivity;
 import com.example.richroots.R;
-import com.example.richroots.Util.Utility;
-import com.example.richroots.ui.modifyItemCenter.ModifyItemCenterFragment;
+import com.example.richroots.ViewModel.ItemCenterVM;
 import com.google.android.material.tabs.TabLayout;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class HomeFragment extends Fragment {
 
     private static final String TAG = "MainActivity";
     private HomeViewModel homeViewModel;
-    private Button modifyCenter;
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
@@ -96,12 +87,11 @@ public class HomeFragment extends Fragment {
         initButtons(root);
         initRecView(root);
         initTabLayout(root);
-
         return root;
     }
 
     private void  initButtons(View root){
-        modifyCenter = (Button) root.findViewById(R.id.btnModifyCenter);
+
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -109,15 +99,6 @@ public class HomeFragment extends Fragment {
         adapter.addFragment(new ItemFragment(), "Item");
         adapter.addFragment(new CenterFragment(), "Center");
         viewPager.setAdapter(adapter);
-    }
-
-    private void  initButtonClicks(View root){
-        this.modifyCenter.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                MainActivity mainActivity = new MainActivity();
-                mainActivity.loadFragment(new ModifyItemCenterFragment());
-            }
-        });
     }
 
     private void initTabLayout(View root) {
@@ -142,7 +123,18 @@ public class HomeFragment extends Fragment {
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         rView.setLayoutManager(layoutManager);
-        CustomAdapter customAdapter = new CustomAdapter(getContext(), countryList, flags);
+
+        //Here code
+        List<ItemCenterVM> lstItemCenterVM = new ArrayList<ItemCenterVM>();
+        ItemCenterVM itemCenterVM = new ItemCenterVM();
+        itemCenterVM.setMarketName("test Market");
+        itemCenterVM.setProductName("test Product");
+        itemCenterVM.setQuantity(25);
+        itemCenterVM.setQuantityQualifier("pieces");
+        itemCenterVM.setMinPrice(200);
+        itemCenterVM.setMaxPrice(1500);
+        lstItemCenterVM.add(itemCenterVM);
+        CustomAdapter customAdapter = new CustomAdapter(getContext(), lstItemCenterVM);
         rView.setAdapter(customAdapter);
 
     }

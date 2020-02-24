@@ -13,19 +13,23 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.richroots.Model.ItemDetail;
 import com.example.richroots.R;
+import com.example.richroots.ViewModel.ItemCenterVM;
+import com.squareup.picasso.OkHttpDownloader;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.RecyclerViewHolder> {
     Context context;
     String countryList[];
     int flags[];
+    List<ItemCenterVM> lstItemCenterVM;
 
-    public CustomAdapter(Context applicationContext, String[] countryList, int[] flags) {
-        this.context = context;
-        this.countryList = countryList;
-        this.flags = flags;
+    public CustomAdapter(Context applicationContext, List<ItemCenterVM> lstItemCenterVM) {
+        this.context = applicationContext;
+        this.lstItemCenterVM = lstItemCenterVM;
     }
 
     @Override
@@ -41,38 +45,25 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.RecyclerVi
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
         View view = holder.linearLayout;
-        ImageView icon = (ImageView) view.findViewById(R.id.icon);
-        final int i = position;
-        icon.setImageResource(flags[i]);
+        ImageView icon = (ImageView) view.findViewById(R.id.itemImage);
+        Picasso.with(this.context)
+                .load("https://cdn.britannica.com/17/196817-050-6A15DAC3/vegetables.jpg")
+                .placeholder(R.drawable.fruits)
+                .into(icon);
+        ItemCenterVM item = lstItemCenterVM.get(position);
         TextView price = (TextView) view.findViewById(R.id.txtPrice);
-        price.setText(countryList[i]);
+        price.setText(item.getMinPrice() + " to " + item.getMaxPrice());
         TextView center = (TextView) view.findViewById(R.id.txtcenter);
-        center.setText(countryList[i]);
-        TextView item = (TextView) view.findViewById(R.id.txtItem);
-        item.setText(countryList[i]);
+        center.setText(item.getMarketName());
+        TextView txtitem = (TextView) view.findViewById(R.id.txtItem);
+        txtitem.setText(item.getProductName());
         TextView quantity = (TextView) view.findViewById(R.id.txtQuantity);
-        quantity.setText(countryList[i]);
-
-//        List<ItemDetail> itemDetails = new ArrayList<>();
-//        ItemDetail itemDetail = new ItemDetail();
-//        itemDetail.setImage(R.drawable.fruits);
-//        itemDetail.setCenter("center1");
-//        itemDetail.setItem("Item1");
-//        itemDetail.setQuantity("Qua1");
-//        itemDetail.setPriceRange("100 t0 200");
-//        itemDetails.add(itemDetail);
-//        ItemDetail itemDetail1 = new ItemDetail();
-//        itemDetail.setImage(R.drawable.fruits);
-//        itemDetail.setCenter("center2");
-//        itemDetail.setItem("Item2");
-//        itemDetail.setQuantity("Qua2");
-//        itemDetail.setPriceRange("101 t0 203");
-//        itemDetails.add(itemDetail1);
+        quantity.setText(item.getQuantity() + " " + item.getQuantityQualifier());
     }
 
     @Override
     public int getItemCount() {
-        return countryList.length;
+        return lstItemCenterVM.size();
     }
 
     public class RecyclerViewHolder extends RecyclerView.ViewHolder {
@@ -82,38 +73,5 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.RecyclerVi
             linearLayout= (LinearLayout) itemView.findViewById(R.id.recyclerRowLL);
         }
     }
-//    @Override
-//    public int getCount() {
-//        return countryList.length;
-//    }
-//
-//    @Override
-//    public Object getItem(int i) {
-//        return null;
-//    }
-//
-//    @Override
-//    public long getItemId(int i) {
-//        return 0;
-//    }
-
-//    @Override
-//    public View getView(int i, View view, ViewGroup viewGroup) {
-//        view = inflter.inflate(R.layout.recyclerview_row, null);
-////        TextView country = (TextView) view.findViewById(R.id.textView);
-//        ImageView icon = (ImageView) view.findViewById(R.id.icon);
-////        country.setText(countryList[i]);
-//        icon.setImageResource(flags[i]);
-//        TextView price = (TextView) view.findViewById(R.id.txtPrice);
-//        price.setText(countryList[i]);
-//        TextView center = (TextView) view.findViewById(R.id.txtcenter);
-//        center.setText(countryList[i]);
-//        TextView item = (TextView) view.findViewById(R.id.txtItem);
-//        item.setText(countryList[i]);
-//        TextView quantity = (TextView) view.findViewById(R.id.txtQuantity);
-//        quantity.setText(countryList[i]);
-//
-//        return view;
-//    }
 }
 
