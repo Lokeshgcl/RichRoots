@@ -42,12 +42,14 @@
 //
 package com.example.richroots.ui.home;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
@@ -87,6 +89,11 @@ public class HomeFragment extends Fragment {
         initButtons(root);
         initRecView(root);
         initTabLayout(root);
+        final SearchView searchView = (SearchView) root.findViewById(R.id.search);
+        final SearchView.SearchAutoComplete searchAutoComplete = (SearchView.SearchAutoComplete)searchView.findViewById(androidx.appcompat.R.id.search_src_text);
+        searchAutoComplete.setTextColor(Color.GREEN);
+        searchAutoComplete.setDropDownBackgroundResource(android.R.color.holo_blue_light);
+
         return root;
     }
 
@@ -102,13 +109,13 @@ public class HomeFragment extends Fragment {
     }
 
     private void initTabLayout(View root) {
-        viewPager = (ViewPager) root.findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
-
-        if (tabLayout == null) {
-            tabLayout = (TabLayout) root.findViewById(R.id.tabs);
-            tabLayout.setupWithViewPager(viewPager);
-        }
+//        viewPager = (ViewPager) root.findViewById(R.id.viewpager);
+//        setupViewPager(viewPager);
+//
+//        if (tabLayout == null) {
+//            tabLayout = (TabLayout) root.findViewById(R.id.tabs);
+//            tabLayout.setupWithViewPager(viewPager);
+//        }
 //        if (((AppCompatActivity)getActivity()) != null && ((AppCompatActivity) getActivity()).getSupportActionBar() != null) {
 //            ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
 //            ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);

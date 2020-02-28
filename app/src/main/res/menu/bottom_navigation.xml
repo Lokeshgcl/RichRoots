@@ -10,8 +10,8 @@
         android:id="@+id/navigation_Preference"
         android:icon="@drawable/fruits"
         android:title="Preference" />
-    <item
-        android:id="@+id/navigation_Profile"
-        android:icon="@drawable/fruits"
-        android:title="Profile" />
+<!--    <item-->
+<!--        android:id="@+id/navigation_Profile"-->
+<!--        android:icon="@drawable/fruits"-->
+<!--        android:title="Profile" />-->
 </menu>

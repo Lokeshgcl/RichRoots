@@ -29,23 +29,4 @@
         app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/mobile_navigation" />
 
-<!--    <FrameLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:id="@+id/frame_container"-->
-<!--        app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
-<!--        &lt;!&ndash; Main content &ndash;&gt;-->
-<!--        <com.google.android.material.bottomnavigation.BottomNavigationView-->
-<!--            android:id="@+id/bottomNavigation"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="bottom"-->
-<!--            android:background="?android:attr/windowBackground"-->
-<!--            app:itemBackground="@color/bgBottomNavigation"-->
-<!--            android:foreground="?attr/selectableItemBackground"-->
-<!--            app:itemIconTint="@android:color/white"-->
-<!--            app:itemTextColor="@android:color/white"-->
-<!--            app:menu="@menu/bottom_navigation"-->
-<!--            />-->
-<!--    </FrameLayout>-->
 </androidx.constraintlayout.widget.ConstraintLayout>

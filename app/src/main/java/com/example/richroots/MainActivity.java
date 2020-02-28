@@ -2,10 +2,9 @@ package com.example.richroots;
 
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.TextView;
 
-import com.example.richroots.ui.dashboard.DashboardFragment;
 import com.example.richroots.ui.home.HomeFragment;
+import com.example.richroots.ui.modifyItemCenter.ModifyCenterFragment;
 import com.example.richroots.ui.notifications.NotificationsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -18,17 +17,16 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class MainActivity extends AppCompatActivity {
 
     private ActionBar toolbarMain;
-
+//    private MainActivityBinding mainActivityBinding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+//        DataBindingUtil
         toolbarMain = getSupportActionBar();
         toolbarMain.setTitle("Rich Roots");
         // load the store fragment by default
@@ -42,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
+                R.id.navigation_home, R.id.navigation_settings, R.id.navigation_profile)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
@@ -65,14 +63,14 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 case R.id.navigation_Preference:
                     toolbarMain.setTitle("My Gifts");
-                    fragment = new DashboardFragment();
+                    fragment = new ModifyCenterFragment();
                     loadFragment(fragment);
                     return true;
-                case R.id.navigation_Profile:
-                    toolbarMain.setTitle("Cart");
-                    fragment = new NotificationsFragment();
-                    loadFragment(fragment);
-                    return true;
+//                case R.id.navigation_Profile:
+//                    toolbarMain.setTitle("Cart");
+//                    fragment = new NotificationsFragment();
+//                    loadFragment(fragment);
+//                    return true;
             }
             return false;
         }
