@@ -72,13 +72,13 @@ public class ModifyItemCenterFragment extends Fragment {
         searchAdapter= new SearchItemAdapter(arrayList);
         searchLayoutBinding.listView.setAdapter(searchAdapter);
 
-        searchLayoutBinding.search.setActivated(true);
-        searchLayoutBinding.search.setQueryHint("Type your keyword here");
-        searchLayoutBinding.search.onActionViewExpanded();
-        searchLayoutBinding.search.setIconified(false);
-        searchLayoutBinding.search.clearFocus();
+        searchLayoutBinding.searchHome.setActivated(true);
+        searchLayoutBinding.searchHome.setQueryHint("Type your keyword here");
+        searchLayoutBinding.searchHome.onActionViewExpanded();
+        searchLayoutBinding.searchHome.setIconified(false);
+        searchLayoutBinding.searchHome.clearFocus();
 
-        searchLayoutBinding.search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        searchLayoutBinding.searchHome.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 return false;
