@@ -208,8 +208,14 @@ public class HomeFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String query=(String)parent.getItemAtPosition(position);
-                grpItemCenterVM = HomeService.searchGrpItemCenters(query,0);
-                grpItemIds = HomeService.getGrpItemIds(0);
+                HashMap<Integer, ItemCenterVM> searchGrpItems;
+                List<Integer> searchGrpIds;
+                searchGrpItems = HomeService.searchGrpItemCenters(query,0);
+                searchGrpIds = HomeService.getGrpItemIds(0);
+                grpItemCenterVM.clear();
+                grpItemIds.clear();
+                grpItemCenterVM.putAll(searchGrpItems);
+                grpItemIds.addAll(searchGrpIds);
                 customExpandableListAdapter.notifyDataSetChanged();
             }
         });
@@ -272,9 +278,7 @@ public class HomeFragment extends Fragment {
 
     @TargetApi(Build.VERSION_CODES.O)
     public void loadNextDataFromApi(int offset, int totalItemsCount, ExpandableListView view) {
-//        new CustomExpandableListAdapter(getContext(), grpItemCenterVM, mainItemsIds, mainItemCenters);
         Log.v(" loading ", "loading more Items " + offset);
-        Log.v(" totalItemsCount ", " Items " + totalItemsCount);
         Log.v("adapter.getGroupCount ", " Items " + customExpandableListAdapter.getGroupCount());
 
         grpItemCenterVM.putAll(HomeService.getGrpItemCenters(offset));
@@ -287,64 +291,6 @@ public class HomeFragment extends Fragment {
         grpItemIds.addAll(itemIds);
         customExpandableListAdapter.notifyDataSetChanged();
         Log.v("adapter.getGroupCount ", "after Items " + customExpandableListAdapter.getGroupCount());
-
-//        view.post(new Runnable() {
-//            @Override
-//            public void run() {
-//                customExpandableListAdapter.notifyDataSetChanged();
-//            }
-//        });
-//        final int curSize = customExpandableListAdapter.getGroupCount();
-//        int start = offset * 20;
-//        List<ItemCenterVM> tmpItemCenters = new ArrayList<>();
-//        HashMap<Integer, List<ItemCenterVM>> tmpGrpItemCenterVM = new HashMap<>();
-//        List<Integer> tmpItemsIds = new ArrayList<>();
-//
-//        for (int i = start; i < start + 20; i++) {
-//            ItemCenterVM itemCenterVM = new ItemCenterVM();
-//            tmpItemsIds.add(i);
-//            itemCenterVM.setMarketName("loaded Market " + i);
-//            itemCenterVM.setProductName("loaded Product " + i);
-//            itemCenterVM.setQuantity(25 + i);
-//            itemCenterVM.setQuantityQualifier("loaded pieces " + i);
-//            itemCenterVM.setMinPrice(200 + i);
-//            itemCenterVM.setMaxPrice(1500 + i);
-//            tmpItemCenters.add(itemCenterVM);
-//        }
-//
-//        mainItemCenters.addAll(tmpItemCenters);
-//        grpItemIds.addAll(tmpItemsIds);
-//
-//        int j = start;
-//        for (ItemCenterVM item : tmpItemCenters) {
-//            List<ItemCenterVM> items = new ArrayList<>();
-//            for (int i = 0; i < 5; i++) {
-//                ItemCenterVM itemCenterVM = new ItemCenterVM();
-//                itemCenterVM.setMarketName("test Market " + i);
-//                itemCenterVM.setProductName("test Product " + i);
-//                itemCenterVM.setQuantity(25 + i);
-//                itemCenterVM.setQuantityQualifier("pieces " + i);
-//                itemCenterVM.setMinPrice(200 + i);
-//                itemCenterVM.setMaxPrice(1500 + i);
-//                items.add(itemCenterVM);
-//            }
-//            tmpGrpItemCenterVM.put(j, items);
-//            j++;
-//        }
-
-
     }
 
-    public void loadFragment(Fragment fragment) {
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.nav_host_fragment, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
-    }
-
-    private void addDummmyData(ArrayList<String> mDataList) {
-        for (int i = 0; i < 100; i++) {
-            mDataList.add("Item " + i);
-        }
-    }
 }
