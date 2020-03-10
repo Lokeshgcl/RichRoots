@@ -208,15 +208,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String query=(String)parent.getItemAtPosition(position);
-                HashMap<Integer, ItemCenterVM> searchGrpItems;
-                List<Integer> searchGrpIds;
-                searchGrpItems = HomeService.searchGrpItemCenters(query,0);
-                searchGrpIds = HomeService.getGrpItemIds(0);
-                grpItemCenterVM.clear();
-                grpItemIds.clear();
-                grpItemCenterVM.putAll(searchGrpItems);
-                grpItemIds.addAll(searchGrpIds);
-                customExpandableListAdapter.notifyDataSetChanged();
+                SearchItemCenter(query);
             }
         });
 
@@ -291,6 +283,18 @@ public class HomeFragment extends Fragment {
         grpItemIds.addAll(itemIds);
         customExpandableListAdapter.notifyDataSetChanged();
         Log.v("adapter.getGroupCount ", "after Items " + customExpandableListAdapter.getGroupCount());
+    }
+
+    public  void  SearchItemCenter(String query){
+        HashMap<Integer, ItemCenterVM> searchGrpItems;
+        List<Integer> searchGrpIds;
+        searchGrpItems = HomeService.searchGrpItemCenters(query,0);
+        searchGrpIds = HomeService.getGrpItemIds(0);
+        grpItemCenterVM.clear();
+        grpItemIds.clear();
+        grpItemCenterVM.putAll(searchGrpItems);
+        grpItemIds.addAll(searchGrpIds);
+        customExpandableListAdapter.notifyDataSetChanged();
     }
 
 }
