@@ -1,6 +1,7 @@
 package com.example.richroots.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,23 +17,21 @@ import java.util.List;
 
 public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
     private Context context;
-    //    List<ItemCenterVM> grpItemCenterVM;
     List<Integer> mainItemsIds;
-    List<ItemCenterVM> mainItemCenters;
-    private HashMap<Integer, List<ItemCenterVM>> grpItemCenterVM;
-    public CustomExpandableListAdapter(Context context, HashMap<Integer,List<ItemCenterVM>> grpItemCenterVM,
-                                       List<Integer> mainItemsIds, List<ItemCenterVM> mainItemCenters) {
+    private HashMap<Integer, ItemCenterVM> grpItemCenterVM;
+    public CustomExpandableListAdapter(Context context, HashMap<Integer,ItemCenterVM> grpItemCenterVM,
+                                       List<Integer> mainItemsIds) {
         this.context = context;
         this.grpItemCenterVM = grpItemCenterVM;
         this.mainItemsIds = mainItemsIds;
-        this.mainItemCenters = mainItemCenters;
+//        this.mainItemCenters = mainItemCenters;
     }
 
     @Override
     public Object getChild(int listPosition, int expandedListPosition) {
-
-        return this.grpItemCenterVM.get(this.mainItemsIds.get(listPosition))
-                .get(expandedListPosition).getProductName();
+        Log.v("listPosition : ", "" + listPosition);
+        return this.grpItemCenterVM.get(this.mainItemsIds.get(listPosition)).getItemVarients()
+                .get(expandedListPosition).getVariety();
     }
 
     @Override
@@ -57,13 +56,14 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int listPosition) {
-        return this.grpItemCenterVM.get(this.mainItemsIds.get(listPosition))
-                .size();
+        return this.grpItemCenterVM.get(this.mainItemsIds.get(listPosition)).getItemVarients().size();
     }
 
     @Override
     public Object getGroup(int listPosition) {
-        return  this.mainItemCenters.get(this.mainItemsIds.get(listPosition));
+//        this.mainItemsIds.get(listPosition);
+        return this.grpItemCenterVM.get(this.mainItemsIds.get(listPosition));
+//        return  this.mainItemCenters.get(this.mainItemsIds.get(listPosition));
     }
 
     @Override
@@ -85,13 +85,6 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
                     getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.recyclerview_row, null);
         }
-        int i = listPosition;
-        itemCenterVM.setMarketName("test Market " + i);
-        itemCenterVM.setProductName("test Product " + i);
-        itemCenterVM.setQuantity(25 + i);
-        itemCenterVM.setQuantityQualifier("pieces " + i);
-        itemCenterVM.setMinPrice(200 + i);
-        itemCenterVM.setMaxPrice(1500 + i);
 
         ImageView icon = (ImageView) convertView.findViewById(R.id.itemImage);
         TextView price = (TextView) convertView.findViewById(R.id.txtPrice);
@@ -113,6 +106,13 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public boolean isChildSelectable(int listPosition, int expandedListPosition) {
         return true;
+    }
+
+    public void removeAllGroup(int group) {
+    this.mainItemsIds.clear();
+    this.grpItemCenterVM.clear();
+        Log.v("Adapter", "Removing group"+group);
+        notifyDataSetChanged();
     }
 
 }

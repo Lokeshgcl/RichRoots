@@ -63,7 +63,7 @@ public class AutoCompleteAdapter extends ArrayAdapter<String> implements Filtera
             Log.v("Filter "," Prefix : " + prefix);
             if (prefix != null) {
                 final String prefixString = prefix.toString().toLowerCase();
-                List<String> newValues = HomeService.GetProductMarkets(prefix.toString());
+                List<String> newValues = HomeService.GetSearchAutcomplete(prefix.toString());
                 results.values = newValues;
                 results.count = newValues.size();
             }

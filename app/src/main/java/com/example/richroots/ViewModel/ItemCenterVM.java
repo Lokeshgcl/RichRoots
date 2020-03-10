@@ -1,6 +1,9 @@
 package com.example.richroots.ViewModel;
 
+import java.util.List;
+
 public class ItemCenterVM {
+    private String ProductId;
     private String ProductName;
     private String Variety;
     private String SubVariety;
@@ -13,7 +16,23 @@ public class ItemCenterVM {
     private float MaxPrice;
     private float Quantity;
     private String QuantityQualifier;
+    private List<ItemVarient> ItemVarients;
 
+    public List<ItemVarient> getItemVarients() {
+        return ItemVarients;
+    }
+
+    public void setItemVarients(List<ItemVarient> itemVarients) {
+        ItemVarients = itemVarients;
+    }
+
+    public String getProductId() {
+        return ProductId;
+    }
+
+    public void setProductId(String productId) {
+        ProductId = productId;
+    }
     public String getProductName() {
         return ProductName;
     }
