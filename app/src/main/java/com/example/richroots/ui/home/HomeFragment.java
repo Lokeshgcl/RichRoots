@@ -50,11 +50,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ExpandableListAdapter;
+import android.widget.ExpandableListView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.SearchView;
+import androidx.core.widget.NestedScrollView;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -65,6 +68,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.richroots.Adapter.AutoCompleteAdapter;
 import com.example.richroots.Adapter.CustomAdapter;
+import com.example.richroots.Adapter.CustomExpandableListAdapter;
 import com.example.richroots.Adapter.ViewPagerAdapter;
 
 import com.example.richroots.CenterFragment;
@@ -79,6 +83,7 @@ import com.google.android.material.tabs.TabLayout;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
@@ -93,6 +98,12 @@ public class HomeFragment extends Fragment {
     private AutoCompleteAdapter autoCompleteAdapter;
     private FragmentHomeBinding fragmentHomeBinding;
     SearchView searchView;
+    ExpandableListView expandableListView;
+    ExpandableListAdapter expandableListAdapter;
+    private HashMap<Integer, List<ItemCenterVM>> grpItemCenterVM;
+    List<Integer> mainItemsIds;
+    List<ItemCenterVM> mainItemCenters;
+    CustomExpandableListAdapter customExpandableListAdapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -119,6 +130,111 @@ public class HomeFragment extends Fragment {
         fragmentHomeBinding.homeSearch.onActionViewExpanded();
         fragmentHomeBinding.homeSearch.setIconified(false);
         fragmentHomeBinding.homeSearch.clearFocus();
+
+        expandableListView = (ExpandableListView) root.findViewById(R.id.expandableListView);
+        mainItemCenters = new ArrayList<>();
+        grpItemCenterVM = new HashMap<>();
+        mainItemsIds = new ArrayList<>();
+        for (int i = 0; i < 20; i++) {
+            ItemCenterVM itemCenterVM = new ItemCenterVM();
+            mainItemsIds.add(i);
+            itemCenterVM.setMarketName("test Market " + i);
+            itemCenterVM.setProductName("test Product " + i);
+            itemCenterVM.setQuantity(25 + i);
+            itemCenterVM.setQuantityQualifier("pieces " + i);
+            itemCenterVM.setMinPrice(200 + i);
+            itemCenterVM.setMaxPrice(1500 + i);
+            mainItemCenters.add(itemCenterVM);
+        }
+
+        int j = 0;
+        for (ItemCenterVM item : mainItemCenters) {
+            List<ItemCenterVM> items = new ArrayList<>();
+            for (int i = 0; i < 5; i++) {
+                ItemCenterVM itemCenterVM = new ItemCenterVM();
+                itemCenterVM.setMarketName("test Market " + i);
+                itemCenterVM.setProductName("test Product " + i);
+                itemCenterVM.setQuantity(25 + i);
+                itemCenterVM.setQuantityQualifier("pieces " + i);
+                itemCenterVM.setMinPrice(200 + i);
+                itemCenterVM.setMaxPrice(1500 + i);
+                items.add(itemCenterVM);
+            }
+            grpItemCenterVM.put(j, items);
+            j++;
+        }
+
+        mainItemsIds = new ArrayList<Integer>(grpItemCenterVM.keySet());
+        customExpandableListAdapter = new CustomExpandableListAdapter(getContext(), grpItemCenterVM, mainItemsIds, mainItemCenters);
+        expandableListAdapter = customExpandableListAdapter;
+        expandableListView.setAdapter(expandableListAdapter);
+
+        NestedScrollView scroller = (NestedScrollView) root.findViewById(R.id.nestedScrollHome);
+        if (scroller != null) {
+
+            scroller.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+                @Override
+                public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                    View view = (View) v.getChildAt(v.getChildCount() - 1);
+                    Log.i("view.getBottom() " , " " + view.getBottom());
+                    Log.i("scrollY " , " " + scrollY);
+                    Log.i("expandableListchldcnt " , " " + expandableListView.getChildCount());
+                    Log.i("expandableList0Height " , " " + expandableListView.getChildAt(0).getMeasuredHeight());
+                    if (scrollY > oldScrollY) {
+                        Log.i("TAG", "Scroll DOWN ScrollY " + scrollY);
+                    }
+                    if (scrollY < oldScrollY) {
+                        Log.i("TAG", "Scroll Up ScrollY " + scrollY);
+                    }
+
+                    if (scrollY == 0) {
+                        Log.i("TAG", "TOP SCROLL ");
+                    }
+
+                    if (view.getBottom() == scrollY + v.getMeasuredHeight()) {
+                        Log.i("TAG", "BOTTOM SCROLL");
+                        loadNextDataFromApi(1,20,expandableListView);
+                    }
+                }
+            });
+        }
+
+        expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+
+            @Override
+            public void onGroupExpand(int groupPosition) {
+                Toast.makeText(getContext(),
+                        mainItemsIds.get(groupPosition) + " List Expanded.",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        expandableListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
+
+            @Override
+            public void onGroupCollapse(int groupPosition) {
+                Toast.makeText(getContext(),
+                        mainItemsIds.get(groupPosition) + " List Collapsed.",
+                        Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v,
+                                        int groupPosition, int childPosition, long id) {
+                Toast.makeText(
+                        getContext(),
+                        mainItemsIds.get(groupPosition)
+                                + " -> "
+                                + grpItemCenterVM.get(
+                                mainItemsIds.get(groupPosition)).get(
+                                childPosition), Toast.LENGTH_SHORT
+                ).show();
+                return false;
+            }
+        });
 
         searchAutoComplete.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -192,65 +308,85 @@ public class HomeFragment extends Fragment {
 
     //method for initializing recycler view
     private void initRecView(View root) {
-        RecyclerView rView = (RecyclerView) root.findViewById(R.id.recyclerView);
-        rView.invalidate();
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        rView.setLayoutManager(layoutManager);
-
-        scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                // Triggered only when new data needs to be appended to the list
-                // Add whatever code is needed to append new items to the bottom of the list
-                Log.v(" loading more Data ", " have to load more Items page: " + page + " totalItemsCount: " + totalItemsCount);
-                loadNextDataFromApi(page, totalItemsCount, view);
-            }
-        };
-
-        rView.addOnScrollListener(scrollListener);
-
-        lstItemCenterVM = new ArrayList<ItemCenterVM>();
-        for (int i = 0; i<20; i++){
-            ItemCenterVM itemCenterVM = new ItemCenterVM();
-            itemCenterVM.setMarketName("test Market " + i);
-            itemCenterVM.setProductName("test Product " + i);
-            itemCenterVM.setQuantity(25 + i);
-            itemCenterVM.setQuantityQualifier("pieces " + i);
-            itemCenterVM.setMinPrice(200 + i);
-            itemCenterVM.setMaxPrice(1500 + i);
-            lstItemCenterVM.add(itemCenterVM);
-        }
-
-        customAdapter = new CustomAdapter(getContext(), lstItemCenterVM);
-        rView.setAdapter(customAdapter);
+//        RecyclerView rView = (RecyclerView) root.findViewById(R.id.recyclerView);
+//        rView.invalidate();
+//        final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+//        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+//        rView.setLayoutManager(layoutManager);
+//
+//        scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
+//            @Override
+//            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+//                // Triggered only when new data needs to be appended to the list
+//                // Add whatever code is needed to append new items to the bottom of the list
+//                Log.v(" loading more Data ", " have to load more Items page: " + page + " totalItemsCount: " + totalItemsCount);
+//                loadNextDataFromApi(page, totalItemsCount, view);
+//            }
+//        };
+//
+//        rView.addOnScrollListener(scrollListener);
+//
+//        lstItemCenterVM = new ArrayList<ItemCenterVM>();
+//        for (int i = 0; i<20; i++){
+//            ItemCenterVM itemCenterVM = new ItemCenterVM();
+//            itemCenterVM.setMarketName("test Market " + i);
+//            itemCenterVM.setProductName("test Product " + i);
+//            itemCenterVM.setQuantity(25 + i);
+//            itemCenterVM.setQuantityQualifier("pieces " + i);
+//            itemCenterVM.setMinPrice(200 + i);
+//            itemCenterVM.setMaxPrice(1500 + i);
+//            lstItemCenterVM.add(itemCenterVM);
+//        }
+//
+//        customAdapter = new CustomAdapter(getContext(), lstItemCenterVM);
+//        rView.setAdapter(customAdapter);
     }
 
-    public void loadNextDataFromApi(int offset, int totalItemsCount, RecyclerView view) {
+    public void loadNextDataFromApi(int offset, int totalItemsCount, ExpandableListView view) {
+//        new CustomExpandableListAdapter(getContext(), grpItemCenterVM, mainItemsIds, mainItemCenters);
         Log.v(" loading ", "loading more Items " + offset);
         Log.v(" totalItemsCount ", " Items " + totalItemsCount);
-        Log.v("adapter.getItemCount ", " Items " + customAdapter.getItemCount());
-        final int curSize = customAdapter.getItemCount();
+        Log.v("adapter.getGroupCount ", " Items " + customExpandableListAdapter.getGroupCount());
+        final int curSize = customExpandableListAdapter.getGroupCount();
         int start = offset * 20;
-        List<ItemCenterVM> items = new ArrayList<ItemCenterVM>();
+        List<ItemCenterVM> tmpItemCenters = new ArrayList<>();
+        HashMap<Integer, List<ItemCenterVM>> tmpGrpItemCenterVM = new HashMap<>();
+        List<Integer> tmpItemsIds = new ArrayList<>();
+
         for (int i = start; i < start + 20; i++) {
             ItemCenterVM itemCenterVM = new ItemCenterVM();
-            itemCenterVM.setMarketName("test Market " + i);
-            itemCenterVM.setProductName("test Product " + i);
+            tmpItemsIds.add(i);
+            itemCenterVM.setMarketName("loaded Market " + i);
+            itemCenterVM.setProductName("loaded Product " + i);
             itemCenterVM.setQuantity(25 + i);
-            itemCenterVM.setQuantityQualifier("pieces " + i);
+            itemCenterVM.setQuantityQualifier("loaded pieces " + i);
             itemCenterVM.setMinPrice(200 + i);
             itemCenterVM.setMaxPrice(1500 + i);
-            items.add(itemCenterVM);
+            tmpItemCenters.add(itemCenterVM);
         }
-        lstItemCenterVM.addAll(items);
-        HomeService.setLstItems(lstItemCenterVM);
-        view.post(new Runnable() {
-            @Override
-            public void run() {
-                customAdapter.notifyItemRangeInserted(curSize, lstItemCenterVM.size() - 1);
+
+        mainItemCenters.addAll(tmpItemCenters);
+        mainItemsIds.addAll(tmpItemsIds);
+
+        int j = start;
+        for (ItemCenterVM item : tmpItemCenters) {
+            List<ItemCenterVM> items = new ArrayList<>();
+            for (int i = 0; i < 5; i++) {
+                ItemCenterVM itemCenterVM = new ItemCenterVM();
+                itemCenterVM.setMarketName("test Market " + i);
+                itemCenterVM.setProductName("test Product " + i);
+                itemCenterVM.setQuantity(25 + i);
+                itemCenterVM.setQuantityQualifier("pieces " + i);
+                itemCenterVM.setMinPrice(200 + i);
+                itemCenterVM.setMaxPrice(1500 + i);
+                items.add(itemCenterVM);
             }
-        });
+            tmpGrpItemCenterVM.put(j, items);
+            j++;
+        }
+
+        grpItemCenterVM.putAll(tmpGrpItemCenterVM);
+        customExpandableListAdapter.notifyDataSetChanged();
     }
 
     public void loadFragment(Fragment fragment) {

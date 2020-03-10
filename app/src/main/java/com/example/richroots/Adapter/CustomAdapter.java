@@ -37,7 +37,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.RecyclerVi
         final View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recyclerview_row, parent, false);
         ImageView icon = (ImageView) view.findViewById(R.id.icon);
-        final RecyclerViewHolder holder = new RecyclerViewHolder(view);
         RecyclerViewHolder viewHolder = new RecyclerViewHolder(view);
         return viewHolder;
     }

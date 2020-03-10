@@ -1,4 +1,4 @@
-package com.example.mytestsearch;
+package com.example.richroots;
 
 import android.content.Context;
 import android.util.AttributeSet;
